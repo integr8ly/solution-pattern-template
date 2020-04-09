@@ -1,0 +1,30 @@
+= Template Walkthrough
+
+// This is a template meant to be used as a starting point for walkthrough development
+
+[type=walkthroughResource,serviceName=openshift]
+.Red Hat OpenShift
+****
+* link:{openshift-host}/console[Console, window="_blank"]
+* link:https://help.openshift.com/[Openshift Online Help Center, window="_blank"]
+* link:https://blog.openshift.com/[Openshift Blog, window="_blank"]
+****
+
+[time=5]
+== Task Title
+
+// Subtasks are not required. 
+// For simple walkthroughs, create your procedure under tasks.
+
+=== Subtask Title
+
+. Do first step.
+. Do second step.
+
+[type=verification]
+====
+Did it work?
+====
+
+[type=verificationFail]
+Try the steps again. If it's still not working contact your administrator.
