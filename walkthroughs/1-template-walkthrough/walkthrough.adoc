@@ -1,19 +1,38 @@
-= Template Walkthrough
+// NOTE: This solution pattern template is meant to be used as a starting point for development
+// <-- START OF SOLUTION PATTERN GENERAL INFO -->
+// Update the component versions for each release (Fuse example below)
+// Component versions
+//:fuse-version: 7.5
 
-// This is a template meant to be used as a starting point for walkthrough development
+// URLs (Fuse example included to show how this works with the component version attribute from above)
+//:fuse-documentation-url: https://access.redhat.com/documentation/en-us/red_hat_fuse/{fuse-version}/
+:openshift-console-url: {openshift-host}/dashboards
+
+//attributes
+:title: Solution Pattern Template
+:standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact your administrator.
+
+
+//id syntax is used here for the custom IDs because that is how the Solution Explorer sorts these within groups
+[id='1-solution-pattern-template']
+= {title}
+
 
 [type=walkthroughResource,serviceName=openshift]
 .Red Hat OpenShift
 ****
-* link:{openshift-host}/console[Console, window="_blank"]
-* link:https://help.openshift.com/[Openshift Online Help Center, window="_blank"]
-* link:https://blog.openshift.com/[Openshift Blog, window="_blank"]
+* link:{openshift-console-url}[Console, window="_blank"]
+* link:https://docs.openshift.com/dedicated/4/welcome/index.html/[OpenShift Documentation, window="_blank"]
+* link:https://blog.openshift.com/[OpenShift Blog, window="_blank"]
 ****
+// <-- END OF SOLUTION PATTERN GENERAL INFO -->
 
+// <-- START OF SOLUTION PATTERN TASKS -->
 [time=5]
+[id='title-of-task']
 == Task Title
 
-// Subtasks are not required. 
+// Subtasks are not required.
 // For simple walkthroughs, create your procedure under tasks.
 
 === Subtask Title
@@ -27,4 +46,5 @@ Did it work?
 ====
 
 [type=verificationFail]
-Try the steps again. If it's still not working contact your administrator.
+{standard-fail-text}
+// <-- END OF SOLUTION PATTERN TASKS -->
