@@ -1,6 +1,6 @@
 {
   "dependencies": {
-      "managedServices": [
+    "managedServices": [
       {
         "name": "amqonline"
       },
@@ -8,6 +8,173 @@
         "name": "fuse"
       }
     ],
-    "templates": []
+    "templates": [
+      {
+        "apiVersion": "template.openshift.io/v1",
+        "kind": "Template",
+        "metadata": {
+          "name": "postgresql-persistent",
+          "displayName": "postgresql-persistent",
+          "annotations": {
+            "openshift.io/display-name": "Demo Service Database",
+            "description": "The database for the Demo Service"
+          }
+        },
+        "objects": [
+          {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "spec": {
+              "ports": [
+                {
+                  "port": 5432,
+                  "targetPort": 5432
+                }
+              ],
+              "selector": {
+                "deploymentConfig": "demo-service-db"
+              }
+            },
+            "metadata": {
+              "name": "demo-service-db",
+              "labels": {
+                "app": "demo-service-db"
+              }
+            }
+          },
+          {
+            "kind": "DeploymentConfig",
+            "apiVersion": "apps.openshift.io/v1",
+            "metadata": {
+              "name": "demo-service-db",
+              "labels": {
+                "app": "demo-service-db"
+              }
+            },
+            "spec": {
+              "strategy": {
+                "type": "Recreate"
+              },
+              "triggers": [
+                {
+                  "type": "ImageChange",
+                  "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                      "demo-service-db"
+                    ],
+                    "from": {
+                      "kind": "ImageStreamTag",
+                      "namespace": "openshift",
+                      "name": "postgresql:9.6"
+                    }
+                  }
+                },
+                {
+                  "type": "ConfigChange"
+                }
+              ],
+              "replicas": 1,
+              "selector": {
+                "deploymentConfig": "demo-service-db"
+              },
+              "template": {
+                "metadata": {
+                  "name": "demo-service-db",
+                  "labels": {
+                    "deploymentConfig": "demo-service-db",
+                    "app": "demo-service-db"
+                  }
+                },
+                "spec": {
+                  "terminationGracePeriodSeconds": 60,
+                  "containers": [
+                    {
+                      "name": "demo-service-db",
+                      "image": "postgresql",
+                      "imagePullPolicy": "Always",
+                      "ports": [
+                        {
+                          "containerPort": 5432,
+                          "protocol": "TCP"
+                        }
+                      ],
+                      "readinessProbe": {
+                        "timeoutSeconds": 1,
+                        "initialDelaySeconds": 5,
+                        "exec": {
+                          "command": [
+                            "/bin/sh",
+                            "-i",
+                            "-c",
+                            "psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c 'SELECT 1'"
+                          ]
+                        }
+                      },
+                      "livenessProbe": {
+                        "timeoutSeconds": 1,
+                        "initialDelaySeconds": 30,
+                        "tcpSocket": {
+                          "port": 5432
+                        }
+                      },
+                      "volumeMounts": [
+                        {
+                          "mountPath": "/var/lib/pgsql/data",
+                          "name": "rhmi-lab-orders-db"
+                        }
+                      ],
+                      "env": [
+                        {
+                          "name": "POSTGRESQL_USER",
+                          "value": "{{ user-sanitized-username }}"
+                        },
+                        {
+                          "name": "POSTGRESQL_PASSWORD",
+                          "value": "password"
+                        },
+                        {
+                          "name": "POSTGRESQL_DATABASE",
+                          "value": "orders"
+                        }
+                      ]
+                    }
+                  ],
+                  "volumes": [
+                    {
+                      "name": "demo-service-db",
+                      "persistentVolumeClaim": {
+                        "claimName": "demo-service-db"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+              "name": "demo-service-db",
+              "labels": {
+                "app": "demo-service-db"
+              }
+            },
+            "spec": {
+              "accessModes": [
+                "ReadWriteOnce"
+              ],
+              "resources": {
+                "requests": {
+                  "storage": "1Gi"
+                }
+              }
+            }
+          }
+        ],
+        "parameters": []
+      }
+    ]
   }
 }
