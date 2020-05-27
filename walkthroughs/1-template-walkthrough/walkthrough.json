@@ -121,7 +121,7 @@
                       "volumeMounts": [
                         {
                           "mountPath": "/var/lib/pgsql/data",
-                          "name": "rhmi-lab-orders-db"
+                          "name": "demo-service-db"
                         }
                       ],
                       "env": [
