@@ -17,6 +17,10 @@
 [id='1-solution-pattern-template']
 = {title}
 
+// Description text for the Solution Pattern. Try to keep the word count to 15-22 and/or around 100-125 characters.
+Learn how to ...
+// Additional introduction content can go here, including an architectural diagram.
+More content can go here.
 
 [type=walkthroughResource,serviceName=openshift]
 .Red Hat OpenShift
