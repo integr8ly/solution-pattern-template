@@ -1,12 +1,6 @@
 {
   "dependencies": {
     "managedServices": [
-      {
-        "name": "amqonline"
-      },
-      {
-        "name": "fuse"
-      }
     ],
     "templates": [
       {
